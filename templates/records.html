@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 DB</title>
+    <style>
+        /* Reset default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333 !important;
+        }
+
+        td a {
+        color: #333 !important; /* Change the link color to black */
+        text-decoration: none !important; /* Remove the underline */
+        }
+    
+        .navbar {
+            background-color: #fff;
+            overflow: hidden;
+            padding: 10px 0;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+    
+        .navbar a {
+            display: inline-block;
+            font-size: 18px;
+            color: #333 !important; /* Change the link color to black */
+            text-align: center;
+            padding: 10px 20px;
+            text-decoration: none !important; /* Remove the underline */
+            position: relative;
+        }
+    
+        .navbar a:hover {
+            color: #333 !important; /* Change the link color to black on hover */
+        }
+    
+        .navbar a::after {
+            content: '';
+            display: block;
+            margin: auto;
+            height: 3px;
+            width: 0;
+            background: red;
+            transition: width .5s ease, background-color .5s ease;
+        }
+    
+        .navbar a:hover::after {
+            width: 100%;
+        }
+    
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+    
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center
+        }
+    
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+    
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            color: black;
+        }
+    
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+    
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    
+        .result-table {
+            margin-top: 20px;
+        }
+    
+        .teammate-table {
+            margin-top: 20px;
+        }
+    
+        .teammate-table th {
+            background-color: #ff6b6b;
+        }
+
+        .see-all-drivers {
+            display: block;
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+            text-decoration: none;
+            color: red;
+            margin-bottom: 50px;
+}
+
+        .see-all-drivers:hover {
+        color: #ff4040; /* Darker red on hover */
+        }
+    </style>
+    
+    
+</head>
+
+<body>
+    <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/drivers">Drivers</a>
+        <a href="/teams">Teams</a>
+        <a href="/seasons">Seasons</a>
+        <a href="/circuits">Circuits</a>
+        <a href="/records">Records</a>
+    </div>
+    <div class="container">  
+        <h2>Records</h2>
+        <table class="result-table">
+        <tr>
+            <td>Name</td>
+            <td>No. Of Championships</td>
+        </tr>
+        {% for row in champs %}
+            <tr>
+                {% set value = row.values()|list %}
+                    <td><a href="/drivers/{{ value[0] }}">{{ value[1] }}</a></td>
+                    <td>{{ value[2] }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+        <a href="/records/championships" class="see-all-drivers">See all champions</a>
+        <table class="result-table">
+            <tr>
+                <td>Name</td>
+                <td>No. Of Wins</td>
+            </tr>
+            {% for row in winners %}
+                <tr>
+                    {% set value = row.values()|list %}
+                        <td><a href="/drivers/{{ value[0] }}">{{ value[1] }}</a></td>
+                        <td>{{ value[2] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <a href="/records/wins" class="see-all-drivers">See all winners</a>
+        <table class="result-table">
+            <tr>
+                <td>Name</td>
+                <td>No. Of Pole Positions</td>
+            </tr>
+            {% for row in polesitters %}
+                <tr>
+                    {% set value = row.values()|list %}
+                        <td><a href="/drivers/{{ value[0] }}">{{ value[1] }}</a></td>
+                        <td>{{ value[2] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <a href="/records/poles" class="see-all-drivers">See all polesitters</a>
+        <table class="result-table">
+            <tr>
+                <td>Name</td>
+                <td>No. Of Championships</td>
+            </tr>
+            {% for row in teamchamps %}
+                <tr>
+                    {% set value = row.values()|list %}
+                        <td><a href="/teams/{{ value[0] }}">{{ value[1] }}</a></td>
+                        <td>{{ value[2] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <a href="/records/teamchampionships" class="see-all-drivers">See all champions</a>
+        <table class="result-table">
+            <tr>
+                <td>Name</td>
+                <td>No. Of Wins</td>
+            </tr>
+            {% for row in teamwinners %}
+                <tr>
+                    {% set value = row.values()|list %}
+                        <td><a href="/teams/{{ value[0] }}">{{ value[1] }}</a></td>
+                        <td>{{ value[2] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <a href="/records/teamwins" class="see-all-drivers">See all winners</a>
+        <table class="result-table">
+            <tr>
+                <td>Name</td>
+                <td>No. Of Pole Positions</td>
+            </tr>
+            {% for row in teampoles %}
+                <tr>
+                    {% set value = row.values()|list %}
+                        <td><a href="/teams/{{ value[0] }}">{{ value[1] }}</a></td>
+                        <td>{{ value[2] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <a href="/records/teampoles" class="see-all-drivers">See all polesitters</a>
+    </div>
+    
+</body>
+</html>

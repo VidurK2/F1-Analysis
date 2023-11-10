@@ -1,0 +1,153 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 DB</title>
+    <style>
+        /* Reset default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .navbar {
+    background-color: #fff;
+    overflow: hidden;
+    padding: 10px 0;
+    text-align: center;
+    border-bottom: 1px solid #ddd; /* Optional: adds a light border at the bottom of the navbar */
+}
+
+.navbar a {
+    display: inline-block;
+    font-size: 18px;
+    color: #333;
+    text-align: center;
+    padding: 10px 20px;
+    text-decoration: none;
+    position: relative;
+}
+
+.navbar a:hover {
+    color: #333;
+}
+
+.navbar a::after {
+    content: '';
+    display: block;
+    margin: auto;
+    height: 3px;
+    width: 0;
+    background: red;
+    transition: width .5s ease, background-color .5s ease;
+}
+
+.navbar a:hover::after {
+    width: 100%;
+}
+
+
+.container {
+    max-width: 800px;
+    margin: 20px auto; /* Center the container */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow */
+}
+
+.container table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px; /* Adds some space between the heading and the table */
+}
+
+.container h2{
+    text-align: center;
+}
+
+.container th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.container th {
+    background-color: #f4f4f4; /* Light grey background for the header */
+    color: #333;
+    font-weight: bold;
+}
+
+.container tr:nth-child(even) {
+    background-color: #f9f9f9; /* Light grey background for even rows */
+}
+
+.container a {
+    color: #333; /* Black color text for links */
+    text-decoration: none; /* Removes underline from links */
+    position: relative;
+    display: inline-block; /* Allows positioning of the arrow */
+}
+
+.container a:hover {
+    color: #333; /* Keeps text color black when hovered */
+}
+
+.container a:hover::after {
+    content: '➔'; /* Right facing arrow */
+    color: red; /* Red color arrow */
+    font-size: 16px;
+    position: absolute;
+    right: -20px; /* Position the arrow to the right of the link */
+    opacity: 0; /* Arrow is initially invisible */
+    transform: translateY(-19%); /* Adjusts for the exact center */
+    opacity: 0;
+    transition: opacity .5s ease, right .5s ease;
+}
+
+.container a:hover::after {
+    opacity: 1; /* Arrow becomes visible when link is hovered */
+    right: -15px;
+}
+
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/drivers">Drivers</a>
+        <a href="/teams">Teams</a>
+        <a href="/seasons">Seasons</a>
+        <a href="/circuits">Circuits</a>
+        <a href="/records">Records</a>
+    </div>
+    <div class="container">
+        <h2>All Polesitters</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>No. of Poles</th>
+            </tr>
+            {% for row in polesitters %}
+                <tr>
+                    {% set value = row.values()|list %}
+                    <td><a href="/drivers/{{ value[0] }}">{{ value[1] }}</a></td>
+                    <td>{{ value[2] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

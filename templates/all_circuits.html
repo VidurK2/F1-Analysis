@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE, edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 DB</title>
+    <style>
+        /* Reset default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .navbar {
+            background-color: #fff;
+            overflow: hidden;
+            padding: 10px 0;
+            text-align: center;
+            border-bottom: 1px solid #ddd; /* Optional: adds a light border at the bottom of the navbar */
+        }
+
+        .navbar a {
+            display: inline-block;
+            font-size: 18px;
+            color: #333;
+            text-align: center;
+            padding: 10px 20px;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .navbar a:hover {
+            color: #333;
+        }
+
+        .navbar a::after {
+            content: '';
+            display: block;
+            margin: auto;
+            height: 3px;
+            width: 0;
+            background: red;
+            transition: width .5s ease, background-color .5s ease;
+        }
+
+        .navbar a:hover::after {
+            width: 100%;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 24px; /* Increase text size */
+            margin-bottom: 20px;
+        }
+
+        .driver-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .driver-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            text-align: center;
+            transition: background-color 0.3s; /* Smooth color transition on hover */
+        }
+
+        .driver-card a {
+            display: block;
+            text-decoration: none; /* Remove underline */
+            color: inherit; /* Inherit the text color */
+            padding: 12px;
+            font-size: 20px; /* Increase text size */
+        }
+
+        .driver-card:hover {
+            background-color: red; /* Change color on hover */
+            color: white;
+        }
+
+        /* Adjust grid styles for responsiveness */
+        @media screen and (max-width: 768px) {
+            .driver-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/drivers">Drivers</a>
+        <a href="/teams">Teams</a>
+        <a href="/seasons">Seasons</a>
+        <a href="/circuits">Circuits</a>
+        <a href="/records">Records</a>
+    </div>
+    <div class="container">
+        <h2>Circuits</h2>
+        <div class="driver-grid">
+            {% for row in results %}
+                <div class="driver-card">
+                    {% set value = row.values()|list %}
+                    <a href="/circuits/{{ value[0] }}">{{ value[1] }}</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

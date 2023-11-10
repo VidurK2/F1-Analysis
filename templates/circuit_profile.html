@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 DB</title>
+    <style>
+         /* Reset default styles */
+         * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+
+        .navbar {
+            background-color: #fff;
+            overflow: hidden;
+            padding: 10px 0;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .navbar a {
+            display: inline-block;
+            font-size: 18px;
+            color: #333;
+            text-align: center;
+            padding: 10px 20px;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .navbar a:hover {
+            color: #333;
+        }
+
+        .navbar a::after {
+            content: '';
+            display: block;
+            margin: auto;
+            height: 3px;
+            width: 0;
+            background: red;
+            transition: width .5s ease, background-color .5s ease;
+        }
+
+        .navbar a:hover::after {
+            width: 100%;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .container h2 {
+            text-align: center;
+        }
+
+        .container th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .container th {
+            background-color: #f4f4f4;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .container tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .container a {
+            color: #333;
+            text-decoration: none;
+            position: relative;
+            display: inline-block;
+        }
+
+        .container a:hover {
+            color: #333;
+        }
+
+        .container a:hover::after {
+            content: '➔';
+            color: red;
+            font-size: 16px;
+            position: absolute;
+            right: -20px;
+            opacity: 0;
+            transform: translateY(-19%);
+            transition: opacity .5s ease, right .5s ease;
+        }
+
+        .container a:hover::after {
+            opacity: 1;
+            right: -15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/drivers">Drivers</a>
+        <a href="/teams">Teams</a>
+        <a href="/seasons">Seasons</a>
+        <a href="/circuits">Circuits</a>
+        <a href="/records">Records</a>
+    </div>
+    <div class="container">
+    {% for row in name %}
+    {% set value = row.values()|list %}
+    <h2>{{value[0]}}, {{value[1]}}, {{value[2]}}</h2>
+    {% endfor %}
+    <div id = "chart"></div>
+    {% block javascript %}
+    <script>
+        var options = {
+          series: [{
+            name: "Laptime",
+            data: JSON.parse("{{datas|tojson}}")
+        }],
+          chart: {
+          height: 350,
+          type: 'line',
+          zoom: {
+            enabled: false
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'straight'
+        },
+        title: {
+          text: 'Laptime Over the Years (in seconds)',
+          align: 'left'
+        },
+        grid: {
+          row: {
+            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+            opacity: 0.5
+          },
+        },
+        xaxis: {
+          categories: JSON.parse("{{year|tojson}}"),
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+
+    </script>
+    {%endblock%}
+    <table>
+    <h2>Most Successful Drivers</h2>
+    <tr>
+        <th>Driver</th>
+        <th>Number of Wins</th>
+    </tr>
+    <tr>
+        {% for row in drivers %}
+            <tr>
+                {% set value = row.values()|list %}
+                    <td><a href="/drivers/{{value[0]}}">{{ value[1] }}</a></td>
+                    <td>{{ value[2] }}</td>
+            </tr>
+        {% endfor %}
+    </tr>
+    </table>
+    <table>
+        <h2>Most Successful Teams</h2>
+        <tr>
+            <th>Teams</th>  
+            <th>Number of Wins</th>
+        </tr>
+        <tr>
+            {% for row in teams %}
+                <tr>
+                    {% set value = row.values()|list %}
+                        <td><a href="/teams/{{value[0]}}">{{ value[1] }}</a></td>
+                        <td>{{ value[2] }}</td>
+                </tr>
+            {% endfor %}
+        </tr>
+        </table>
+    </div>
+</body>
+</html>

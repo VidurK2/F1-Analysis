@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE, edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 DB</title>
+    <style>
+        /* Reset default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .navbar {
+            background-color: #fff;
+            overflow: hidden;
+            padding: 10px 0;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .navbar a {
+            display: inline-block;
+            font-size: 18px;
+            color: #333;
+            text-align: center;
+            padding: 10px 20px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            color: #333;
+        }
+
+        .navbar a::after {
+            content: '';
+            display: block;
+            margin: auto;
+            height: 3px;
+            width: 0;
+            background: red;
+            transition: width .5s ease, background-color .5s ease;
+        }
+
+        .navbar a:hover::after {
+            width: 100%;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .driver-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .driver-card {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .driver-card a {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            padding: 12px;
+            font-size: 20px;
+        }
+
+        .driver-card:hover {
+            background-color: red;
+            color: white;
+        }
+
+        /* Style the search bar */
+        form {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: darkred;
+        }
+
+        /* Adjust grid styles for responsiveness */
+        @media screen and (max-width: 768px) {
+            .driver-card {
+                flex: 0 0 calc(50% - 20px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/drivers">Drivers</a>
+        <a href="/teams">Teams</a>
+        <a href="/seasons">Seasons</a>
+        <a href="/circuits">Circuits</a>
+        <a href="/records">Records</a>
+    </div>
+    <div class="container">
+        <h2>Seasons</h2>
+        <div class="driver-grid">
+            {% for row in results %}
+                {% set outer_loop = loop %}
+                <div class="driver-card">
+                    {% set value = row.values()|list %}
+                    <a href="/seasons/{{ value[0] }}">{{ value[0] }}</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

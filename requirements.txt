@@ -1,0 +1,4 @@
+flask
+asyncpg
+Place the folder DBMS_Project_data in C:/Users/ before running the scripts
+Activate the virtual environment in git bash before using flask run to run the app
